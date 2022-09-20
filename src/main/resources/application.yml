@@ -1,0 +1,9 @@
+spring:
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/minecraft-job
+    username: root
+    password: wnswns65
+mybatis:
+  type-aliases-package: spring.notice.springnotice
+  mapper-locations: static/mapper/*.xml
