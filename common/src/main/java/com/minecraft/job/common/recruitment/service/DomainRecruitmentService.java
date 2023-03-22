@@ -17,6 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 
+import static com.minecraft.job.common.recruitment.domain.RecruitmentSearchType.*;
 import static com.minecraft.job.common.support.Preconditions.require;
 
 @Service
@@ -120,16 +121,27 @@ public class DomainRecruitmentService implements RecruitmentService {
         return recruitment;
     }
 
+    @Override
+    public Page<Recruitment> getMyRecruitmentList(RecruitmentSearchType searchType, String searchName, Pageable pageable, Long teamId) {
+        Team team = teamRepository.findById(teamId).orElseThrow();
+        Specification<Recruitment> spec = getRecruitmentSpecification(searchType, searchName).and(RecruitmentSpecification.equalTeam(team));
+
+        return recruitmentRepository.findAll(spec, pageable);
+    }
+
     private Specification<Recruitment> getRecruitmentSpecification(RecruitmentSearchType searchType, String searchName) {
         Specification<Recruitment> spec = null;
 
-        if (searchType == RecruitmentSearchType.TITLE) {
+        if (searchType == ALL) {
+            spec = Specification.where(null);
+        }
+        if (searchType == TITLE) {
             spec = Specification.where(RecruitmentSpecification.likeTitle(searchName));
         }
-        if (searchType == RecruitmentSearchType.CONTENT) {
+        if (searchType == CONTENT) {
             spec = Specification.where(RecruitmentSpecification.likeContent(searchName));
         }
-        if (searchType == RecruitmentSearchType.TEAM) {
+        if (searchType == TEAM) {
             Team team = teamRepository.findByName(searchName);
             spec = Specification.where(RecruitmentSpecification.equalTeam(team));
         }

@@ -13,6 +13,7 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import static com.minecraft.job.common.resume.domain.ResumeSearchType.*;
 import static com.minecraft.job.common.support.Preconditions.require;
 
 @Service
@@ -101,19 +102,19 @@ public class DomainResumeService implements ResumeService {
     private Specification<Resume> getResumeSpecification(ResumeSearchType searchType, String searchName) {
         Specification<Resume> spec = null;
 
-        if(searchType == ResumeSearchType.ALL) {
+        if(searchType == ALL) {
             spec = Specification.where(null);
         }
-        if (searchType == ResumeSearchType.TITLE) {
+        if (searchType == TITLE) {
             spec = Specification.where(ResumeSpecification.likeTitle(searchName));
         }
-        if (searchType == ResumeSearchType.CONTENT) {
+        if (searchType == CONTENT) {
             spec = Specification.where(ResumeSpecification.likeContent(searchName));
         }
-        if (searchType == ResumeSearchType.TRAININGHISTORY) {
+        if (searchType == TRAININGHISTORY) {
             spec = Specification.where(ResumeSpecification.likeTrainingHistory(searchName));
         }
-        if (searchType == ResumeSearchType.USER) {
+        if (searchType == USER) {
             User user = userRepository.findByNickname(searchName);
             spec = Specification.where(ResumeSpecification.equalUser(user));
         }

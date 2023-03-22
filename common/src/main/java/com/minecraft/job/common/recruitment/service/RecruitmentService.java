@@ -24,4 +24,6 @@ public interface RecruitmentService {
     Page<Recruitment> getRecruitments(RecruitmentSearchType searchType, String searchName, Pageable pageable);
 
     Recruitment getRecruitment(Long teamId);
+
+    Page<Recruitment> getMyRecruitmentList(RecruitmentSearchType searchType, String searchName, Pageable pageable, Long teamId);
 }

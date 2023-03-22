@@ -73,7 +73,7 @@ class EmailAuthTest {
     void 이메일_인증_검증_실패__인증_시도_시간_초과() {
         emailAuth.issue();
 
-        emailAuth.setSentAt(OffsetDateTime.now().minusMinutes(MAX_CODE_TRY_TIME));
+        emailAuth.setSentAt(OffsetDateTime.now().minusMinutes(MAX_CODE_TRY_TIME).minusSeconds(10));
 
         assertThatExceptionOfType(TimeExceededException.class).isThrownBy(() -> emailAuth.validate(emailAuth.getCode()));
     }

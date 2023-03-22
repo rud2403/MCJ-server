@@ -70,3 +70,11 @@ Content-Type: application/json
 {
   "teamId": "1"
 }
+
+###GetMyRecruitmentList
+GET http://localhost:8080/recruitment/getMyRecruitmentList
+Content-Type: application/json
+
+{
+  "teamId": "1"
+}
